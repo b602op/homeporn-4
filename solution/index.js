@@ -1,34 +1,26 @@
 // solution/index.js
-import { HomeWork } from './playground';
 
-const promiseWrapper = (callback: Function) => (...props) => (
-    new Promise((resolve) => callback(...props, (result) => {
-            return resolve(result);
-        })
-    )
-);
+export default (Homework) => async (array, fn, initialValue, cb) => {
+    const promiseWrapper = (callback) => (...props) => new Promise(
+        (resolve) => callback(...props, (result) => resolve(result)));
 
-export const getReduce = (Homework: typeof HomeWork) => async (array, fn, initialValue, cb) => {
     let accumulator = initialValue;
-    let index: number = 0;
-    const arrLength = await promiseWrapper(array.length)((x) => x);
+    let index = 0;
+    const arrLength = await promiseWrapper(array.length)();
 
     if (!accumulator) {
-        accumulator = await promiseWrapper(array.get)((x) => x, index);
+        accumulator = await promiseWrapper(array.get)(index);
         index = 1;
     }
 
-    while(await promiseWrapper(Homework.less)((x) => x, index, arrLength)) {
+    while(await promiseWrapper(Homework.less)(index, arrLength)) {
         const item = await promiseWrapper(array.get)(index);
         accumulator = await promiseWrapper(fn)(accumulator, item, index, array);
-        index = await promiseWrapper(Homework.add)(index, 1) as number;
+        index = await promiseWrapper(Homework.add)(index, 1);
     }
-
 
     cb(accumulator)
 }
-
-export default getReduce;
 
 /*
 Пример
