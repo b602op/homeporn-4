@@ -8,7 +8,7 @@ const promiseWrapper = (callback: Function) => (...props) => (
     )
 );
 
-const getReduce = (Homework: typeof HomeWork) => async (array, fn, initialValue, cb) => {
+export const getReduce = (Homework: typeof HomeWork) => async (array, fn, initialValue, cb) => {
     let accumulator = initialValue;
     let index: number = 0;
     const arrLength = await promiseWrapper(array.length)((x) => x);
@@ -28,7 +28,7 @@ const getReduce = (Homework: typeof HomeWork) => async (array, fn, initialValue,
     cb(accumulator)
 }
 
-module.exports = getReduce;
+export default getReduce;
 
 /*
 Пример
